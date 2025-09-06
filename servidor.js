@@ -9,7 +9,7 @@ const cloudinary = require('cloudinary').v2;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- CONFIGURAÇÃO DO CLOUDINARY (Nosso "Closet na Nuvem") ---
+// --- CONFIGURAÇÃO DO CLOUDINARY ---
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -17,15 +17,23 @@ cloudinary.config({
 });
 
 // --- CONFIGURAÇÃO DO BANCO DE DADOS POSTGRESQL ---
-const pool = new Pool({
+// Criamos um objeto de configuração primeiro
+const dbConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   },
-  // ✨✨✨ A PEÇA FINAL QUE FALTAVA ✨✨✨
-  // Força a conexão a usar o endereço antigo e confiável (IPv4)
-  family: 4 
-});
+  family: 4 // Força o uso de IPv4
+};
+
+// ✨✨✨ A NOSSA "CÂMERA ESCONDIDA" / "RAIO-X" ✨✨✨
+// Esta linha vai imprimir nos logs do Render a configuração EXATA que está sendo usada.
+console.log("--- CONFIGURAÇÃO DO BANCO DE DADOS A SER USADA ---");
+console.log(dbConfig);
+console.log("-------------------------------------------------");
+
+// Agora criamos a conexão usando o objeto de configuração
+const pool = new Pool(dbConfig);
 
 const criarTabela = async () => {
   const query = `
@@ -50,7 +58,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --- CONFIGURAÇÃO DO UPLOAD (DIRECIONADO PARA O CLOUDINARY) ---
+// --- CONFIGURAÇÃO DO UPLOAD ---
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
@@ -60,14 +68,12 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-// --- ROTAS DA NOSSA API ---
-
-// ROTA POST: ENVIAR UMA NOVA FOTO
+// --- ROTAS DA API ---
+// (As rotas continuam exatamente iguais)
 app.post('/upload', upload.single('foto'), async (req, res) => {
   const { titulo, descricao } = req.body;
   const caminho = req.file.path;
   const cloudinaryId = req.file.filename;
-
   const sql = `INSERT INTO fotos (titulo, descricao, caminho, cloudinary_id) VALUES ($1, $2, $3, $4) RETURNING *`;
   try {
     const result = await pool.query(sql, [titulo, descricao, caminho, cloudinaryId]);
@@ -78,7 +84,6 @@ app.post('/upload', upload.single('foto'), async (req, res) => {
   }
 });
 
-// ROTA GET: PEGAR TODAS AS FOTOS
 app.get('/fotos', async (req, res) => {
   const sql = "SELECT * FROM fotos ORDER BY data_criacao DESC";
   try {
@@ -90,7 +95,6 @@ app.get('/fotos', async (req, res) => {
   }
 });
 
-// ROTA DELETE: APAGAR UMA FOTO
 app.delete('/fotos/:id', async (req, res) => {
   const id = req.params.id;
   try {
@@ -99,9 +103,7 @@ app.delete('/fotos/:id', async (req, res) => {
       return res.status(404).json({ error: "Foto não encontrada" });
     }
     const cloudinaryId = selectResult.rows[0].cloudinary_id;
-    
     await cloudinary.uploader.destroy(cloudinaryId);
-    
     await pool.query(`DELETE FROM fotos WHERE id = $1`, [id]);
     res.json({ message: 'Foto deletada com sucesso da galeria e da nuvem!' });
   } catch (err) {
