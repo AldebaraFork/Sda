@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Cantinho Secreto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <audio id="musica-fundo" src="musica/Eternamente.mp3" loop></audio>
+
+    <header>
+        
+        <nav>
+            <button id="btn-musica">▶️</button>
+            <button id="btn-abrir-modal">+ Adicionar Nova Memória</button>
+        </nav>
+    </header>
+
+    <main>
+        <h2>A vida com você</h2>
+        <section id="galeria">
+            </section>
+
+        <div id="modal-upload" class="modal">
+            <div class="modal-conteudo">
+                <button id="btn-fechar-modal" class="fechar-modal">&times;</button>
+                <h2>Adicionar Nova Memória</h2>
+                <form>
+                    <label for="input-foto">Escolha a foto:</label>
+                    <input type="file" id="input-foto" name="foto">
+        
+                    <label for="input-titulo">Título:</label>
+                    <input type="text" id="input-titulo" name="titulo" placeholder="Ex: Nosso primeiro sorvete">
+        
+                    <label for="input-descricao">Descrição:</label>
+                    <textarea id="input-descricao" name="descricao" rows="4"></textarea>
+        
+                    <button type="submit" class="btn-enviar">Salvar Memória</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Feito com ❤️ por nós. 2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

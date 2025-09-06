@@ -1,0 +1,22 @@
+{
+    "name": "galeria-casal",
+    "version": "1.0.0",
+    "description": "Nossa galeria de fotos e memórias",
+    "main": "servidor.js",
+    "scripts": {
+      "start": "node servidor.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Nós",
+    "license": "ISC",
+    "dependencies": {
+      "cloudinary": "^1.41.3",
+      "express": "^4.19.2",
+      "multer": "^1.4.5-lts.1",
+      "multer-storage-cloudinary": "^4.0.0",
+      "pg": "^8.11.5"
+    },
+    "engines": {
+      "node": "18.x"
+    }
+  }

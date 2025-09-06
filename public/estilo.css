@@ -1,0 +1,241 @@
+/* RESET BÁSICO E ESTILOS GERAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F8E8EE;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* CABEÇALHO (header) */
+header {
+    background-color: #2F2F2F;
+    color: #FFF;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 4px solid #E65C8B;
+    position: relative;
+    overflow: hidden;
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-family: 'Playfair Display', serif;
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+header button {
+    background-color: #E65C8B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* CONTEÚDO PRINCIPAL (main) */
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+main h2 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* A GALERIA DE FOTOS */
+#galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* O CARTÃO DE CADA FOTO */
+.cartao-foto {
+    background-color: #FFF;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    position: relative;
+}
+
+.cartao-foto img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+.cartao-foto .info-foto {
+    padding: 15px;
+}
+
+.cartao-foto h3 {
+    color: #E65C8B;
+    font-family: 'Playfair Display', serif;
+}
+
+/* RODAPÉ */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #555;
+    font-style: italic;
+}
+
+/* ESTILOS DO MODAL DE UPLOAD */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.aberto {
+    display: flex;
+}
+
+.modal-conteudo {
+    background-color: #fefefe;
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.fechar-modal {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-conteudo form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-conteudo label {
+    font-weight: bold;
+    color: #555;
+}
+
+.modal-conteudo input[type="text"],
+.modal-conteudo textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-conteudo .btn-enviar {
+    background-color: #E65C8B;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* DETALHES VISUAIS - Rosas & Halteres */
+header::after {
+    content: '';
+    background-image: url('/imagens/rosas-canto.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: -50px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.icone-titulo {
+    height: 45px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+/* BOTÃO DE DELETAR */
+.btn-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.cartao-foto:hover .btn-delete {
+    opacity: 1;
+}
+
+/* BOTÃO DE MÚSICA */
+#btn-musica {
+    background: none;
+    border: 2px solid #E65C8B;
+    color: #E65C8B;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+/* REGRAS PARA CELULAR (RESPONSIVO) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+    #galeria {
+        grid-template-columns: 1fr;
+    }
+    .modal-conteudo {
+        width: 95%;
+        padding: 20px 15px;
+    }
+}
