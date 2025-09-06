@@ -2,8 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const { Pool } = require('pg');
-const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 
 // --- CONFIGURAÇÃO INICIAL ---
 const app = express();
@@ -21,7 +21,10 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  // ✨✨✨ A PEÇA FINAL QUE FALTAVA ✨✨✨
+  // Força a conexão a usar o endereço antigo e confiável (IPv4)
+  family: 4 
 });
 
 const criarTabela = async () => {
